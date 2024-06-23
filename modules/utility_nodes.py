@@ -255,15 +255,24 @@ class UtilLoadJsonFromUrl:
     FUNCTION = "load_json"
 
     def load_json(self, url: str, print_to_console=False):
-        response = requests.get(url, timeout=5)
-        if response.status_code != 200:
-            raise Exception(response.text)
+        # Check if the URL is a local file path
+        if url.startswith("file://"):
+            # Remove 'file://' from the URL and unquote URL-encoded characters
+            file_path = requests.utils.unquote(url[7:])
+            # Load JSON from the local file
+            with open(file_path, 'r') as file:
+                data = json.load(file)
+        else:
+            # It's a web URL, use requests to fetch the JSON
+            response = requests.get(url, timeout=5)
+            if response.status_code!= 200:
+                raise Exception(response.text)
+            data = response.json()
 
-        res = response.json()
         if print_to_console:
-            print("JSON content:", json.dumps(res))
+            print("JSON content:", json.dumps(data))
 
-        return (res,)
+        return (data,)
 
 
 class UtilGetObjectFromJson:
