@@ -369,6 +369,25 @@ class UtilGetBoolFromJson:
     def get_bool_from_json(self, json: Dict, key: str):
         return (get_dict_attribute(json, key, False),)
 
+class UtilGetRandomKeyFromJson:
+    @classmethod
+    def INPUT_TYPES(cls):
+        return {
+            "required": {
+                "json": ("JSON",),
+            }
+        }
+
+    RETURN_TYPES = ("STRING",)
+    CATEGORY = "Art Venture/Utils"
+    FUNCTION = "get_random_key_from_json"
+    OUTPUT_NODE = True
+
+    def get_random_key_from_json(self, json: dict):
+        keys = list(json.keys())
+        selected_key = random.choice(keys)
+        print("Selected Key:", selected_key)  # Debugging line to confirm the selected key
+        return (selected_key,)
 
 class UtilRandomInt:
     @classmethod
@@ -1126,6 +1145,7 @@ NODE_CLASS_MAPPINGS = {
     "GetFloatFromJson": UtilGetFloatFromJson,
     "GetIntFromJson": UtilGetIntFromJson,
     "GetBoolFromJson": UtilGetBoolFromJson,
+    "GetRandomKeyFromJson": UtilGetRandomKeyFromJson,
     "RandomInt": UtilRandomInt,
     "RandomFloat": UtilRandomFloat,
     "NumberScaler": UtilNumberScaler,
@@ -1159,6 +1179,7 @@ NODE_DISPLAY_NAME_MAPPINGS = {
     "GetFloatFromJson": "Get Float From JSON",
     "GetIntFromJson": "Get Int From JSON",
     "GetBoolFromJson": "Get Bool From JSON",
+    "GetRandomKeyFromJson": "Get Random Key From JSON",
     "RandomInt": "Random Int",
     "RandomFloat": "Random Float",
     "NumberScaler": "Number Scaler",
