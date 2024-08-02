@@ -374,6 +374,7 @@ class UtilGetRandomKeyFromJson:
     def INPUT_TYPES(cls):
         return {
             "required": {
+                "seed": ("INT", {"default": 0, "min": 0, "max": 0xFFFFFFFFFFFFFFFF}),
                 "json": ("JSON",),
             }
         }
@@ -383,7 +384,8 @@ class UtilGetRandomKeyFromJson:
     FUNCTION = "get_random_key_from_json"
     OUTPUT_NODE = True
 
-    def get_random_key_from_json(self, json: dict):
+    def get_random_key_from_json(self, json: dict, seed: int):
+        random.seed(seed)
         keys = list(json.keys())
         selected_key = random.choice(keys)
         print("Selected Key:", selected_key)  # Debugging line to confirm the selected key
